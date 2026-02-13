@@ -1,0 +1,93 @@
+[2026-02-12 23:50:28] ========================================
+[2026-02-12 23:50:28] IBM MQ Queue Status Tool
+[2026-02-12 23:50:28] ========================================
+[2026-02-12 23:50:28] [INFO] Configuration loaded successfully
+[2026-02-12 23:50:28] [INFO] Starting thread pool with 1 worker(s) for 1 host(s)
+[2026-02-12 23:50:28] [INFO] === Thread processing host: 127.0.0.1 with 1 queue manager(s) ===
+[2026-02-12 23:50:28] [INFO] Processing: MQQM1 on 127.0.0.1
+[2026-02-12 23:50:28] [INFO] Connecting to queue manager: MQQM1 at 127.0.0.1(5200) channel=APP1.SVRCONN
+[2026-02-12 23:50:28] [INFO] Connected successfully to MQQM1
+[2026-02-12 23:50:28] [INFO] Sending PCF INQUIRE_Q_STATUS commands for queue-level and handle-level status...
+[2026-02-12 23:50:28] [INFO] Created dynamic reply queue: PCF.REPLY.698E9F5B2598D501                      
+[2026-02-12 23:50:28] [INFO] Sending queue-level status inquiry...
+[2026-02-12 23:50:28] [INFO] Retrieved 54 queue statuses
+[2026-02-12 23:50:28] [INFO] Sending handle-level status inquiry...
+[2026-02-12 23:50:28] [INFO] Retrieved 22 handle entries
+[2026-02-12 23:50:28] [INFO] Final result: 61 rows (queues + handles)
+[2026-02-12 23:50:28] 
+[2026-02-12 23:50:28] ========================================
+[2026-02-12 23:50:28] QUEUE STATUS REPORT - MQQM1
+[2026-02-12 23:50:28] ========================================
+[2026-02-12 23:50:28] 
+[2026-02-12 23:50:28] Queue Name                         | Type    | Depth | Input | Output | Connection       | Channel          | User         | PID   | AppTag                    | Process_Type | Role
+[2026-02-12 23:50:28] --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+[2026-02-12 23:50:28] APP1.REQ                           | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] APP2.REQ                           | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] DEV.QUEUE.1                        | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] PCF.REPLY.698E9F5B2598D501         | LOCAL   |     1 |     1 |      1 | N/A              | N/A              | MUSR_MQADMIN |  7296 | es\IBM\MQ\bin64\amqpcsea.exe| QMGR         | Writer
+[2026-02-12 23:50:28] PCF.REPLY.698E9F5B2598D501         | LOCAL   |     1 |     1 |      1 | 127.0.0.1        | APP1.SVRCONN     | atulk@DESKTO | 21840 | Tool\build\MQQStatusTool.exe| USER         | Reader
+[2026-02-12 23:50:28] SYSTEM.ADMIN.ACCOUNTING.QUEUE      | LOCAL   |    45 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.ADMIN.ACTIVITY.QUEUE        | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.ADMIN.CHANNEL.EVENT         | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.ADMIN.COMMAND.EVENT         | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.ADMIN.COMMAND.QUEUE         | LOCAL   |     0 |     1 |      1 | N/A              | N/A              | MUSR_MQADMIN |  7296 | es\IBM\MQ\bin64\amqpcsea.exe| QMGR         | Reader
+[2026-02-12 23:50:28] SYSTEM.ADMIN.COMMAND.QUEUE         | LOCAL   |     0 |     1 |      1 | 127.0.0.1        | APP1.SVRCONN     | atulk@DESKTO | 21840 | Tool\build\MQQStatusTool.exe| USER         | Writer
+[2026-02-12 23:50:28] SYSTEM.ADMIN.CONFIG.EVENT          | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.ADMIN.LOGGER.EVENT          | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.ADMIN.PERFM.EVENT           | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.ADMIN.PUBSUB.EVENT          | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.ADMIN.QMGR.EVENT            | LOCAL   |     1 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.ADMIN.STATISTICS.QUEUE      | LOCAL   |   602 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.ADMIN.TRACE.ACTIVITY.QUEUE  | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.ADMIN.TRACE.ROUTE.QUEUE     | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.AMQP.COMMAND.QUEUE          | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.AUTH.DATA.QUEUE             | LOCAL   |   111 |     1 |      1 | N/A              | N/A              | MUSR_MQADMIN |  3452 | es\IBM\MQ\bin64\amqzfuma.exe| QMGR         | Reader/Writer
+[2026-02-12 23:50:28] SYSTEM.BROKER.ADMIN.STREAM         | LOCAL   |     0 |     1 |      1 | N/A              | N/A              | MUSR_MQADMIN |  3548 | es\IBM\MQ\bin64\amqfqpub.exe| QMGR         | Writer
+[2026-02-12 23:50:28] SYSTEM.BROKER.ADMIN.STREAM         | LOCAL   |     0 |     1 |      1 | N/A              | N/A              | MUSR_MQADMIN |  3436 | es\IBM\MQ\bin64\amqfcxba.exe| QMGR         | Reader
+[2026-02-12 23:50:28] SYSTEM.BROKER.CONTROL.QUEUE        | LOCAL   |     0 |     3 |      0 | N/A              | N/A              | MUSR_MQADMIN |  3436 | es\IBM\MQ\bin64\amqfcxba.exe| QMGR         | N/A
+[2026-02-12 23:50:28] SYSTEM.BROKER.CONTROL.QUEUE        | LOCAL   |     0 |     3 |      0 | N/A              | N/A              | MUSR_MQADMIN |  3436 | es\IBM\MQ\bin64\amqfcxba.exe| QMGR         | Reader
+[2026-02-12 23:50:28] SYSTEM.BROKER.CONTROL.QUEUE        | LOCAL   |     0 |     3 |      0 | N/A              | N/A              | MUSR_MQADMIN |  3436 | es\IBM\MQ\bin64\amqfcxba.exe| QMGR         | Reader
+[2026-02-12 23:50:28] SYSTEM.BROKER.CONTROL.QUEUE        | LOCAL   |     0 |     3 |      0 | N/A              | N/A              | MUSR_MQADMIN |  3436 | es\IBM\MQ\bin64\amqfcxba.exe| QMGR         | Reader
+[2026-02-12 23:50:28] SYSTEM.BROKER.DEFAULT.STREAM       | LOCAL   |     0 |     1 |      0 | N/A              | N/A              | MUSR_MQADMIN |  3436 | es\IBM\MQ\bin64\amqfcxba.exe| QMGR         | Reader
+[2026-02-12 23:50:28] SYSTEM.BROKER.INTER.BROKER.COMMUNICATIONS| LOCAL   |     0 |     1 |      0 | N/A              | N/A              | MUSR_MQADMIN |  3548 | es\IBM\MQ\bin64\amqfqpub.exe| QMGR         | Reader
+[2026-02-12 23:50:28] SYSTEM.CHANNEL.INITQ               | LOCAL   |     0 |     1 |      0 | N/A              | N/A              | MUSR_MQADMIN | 21644 | es\IBM\MQ\bin64\runmqchi.exe| CHINIT       | Reader
+[2026-02-12 23:50:28] SYSTEM.CHANNEL.SYNCQ               | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.CHLAUTH.DATA.QUEUE          | LOCAL   |     4 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.CICS.INITIATION.QUEUE       | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.CLUSTER.COMMAND.QUEUE       | LOCAL   |     0 |     1 |      0 | N/A              | N/A              | MUSR_MQADMIN | 16668 | es\IBM\MQ\bin64\amqrrmfa.exe| QMGR         | Reader
+[2026-02-12 23:50:28] SYSTEM.CLUSTER.HISTORY.QUEUE       | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.CLUSTER.REPOSITORY.QUEUE    | LOCAL   |     2 |     1 |      1 | N/A              | N/A              | MUSR_MQADMIN | 16668 | es\IBM\MQ\bin64\amqrrmfa.exe| QMGR         | Reader/Writer
+[2026-02-12 23:50:28] SYSTEM.CLUSTER.TRANSMIT.QUEUE      | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.DDELAY.LOCAL.QUEUE          | LOCAL   |     0 |     1 |      0 | N/A              | N/A              | MUSR_MQADMIN | 12012 | es\IBM\MQ\bin64\amqzmur0.exe| QMGR         | N/A
+[2026-02-12 23:50:28] SYSTEM.DDELAY.LOCAL.QUEUE          | LOCAL   |     0 |     1 |      0 | N/A              | N/A              | MUSR_MQADMIN | 12012 | es\IBM\MQ\bin64\amqzmur0.exe| QMGR         | Reader
+[2026-02-12 23:50:28] SYSTEM.DEAD.LETTER.QUEUE           | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.DEFAULT.INITIATION.QUEUE    | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.DEFAULT.LOCAL.QUEUE         | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.DOTNET.XARECOVERY.QUEUE     | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.DURABLE.SUBSCRIBER.QUEUE    | LOCAL   |     1 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.HIERARCHY.STATE             | LOCAL   |     2 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.INTER.QMGR.CONTROL          | LOCAL   |     0 |     1 |      0 | N/A              | N/A              | MUSR_MQADMIN |  8020 | es\IBM\MQ\bin64\amqzmuf0.exe| QMGR         | Reader
+[2026-02-12 23:50:28] SYSTEM.INTER.QMGR.FANREQ           | LOCAL   |     0 |     1 |      1 | N/A              | N/A              | MUSR_MQADMIN |  8020 | es\IBM\MQ\bin64\amqzmuf0.exe| QMGR         | Reader/Writer
+[2026-02-12 23:50:28] SYSTEM.INTER.QMGR.PUBS             | LOCAL   |     0 |     1 |      0 | N/A              | N/A              | MUSR_MQADMIN |  8020 | es\IBM\MQ\bin64\amqzmuf0.exe| QMGR         | Reader
+[2026-02-12 23:50:28] SYSTEM.INTERNAL.REPLY.QUEUE        | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.INTERNAL.REQUEST.QUEUE      | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.PENDING.DATA.QUEUE          | LOCAL   |     0 |     1 |      1 | N/A              | N/A              | MUSR_MQADMIN | 12012 | es\IBM\MQ\bin64\amqzmur0.exe| QMGR         | Reader/Writer
+[2026-02-12 23:50:28] SYSTEM.PROTECTION.ERROR.QUEUE      | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.PROTECTION.POLICY.QUEUE     | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.REST.REPLY.QUEUE            | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.RETAINED.PUB.QUEUE          | LOCAL   |    31 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.SELECTION.EVALUATION.QUEUE  | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] SYSTEM.SELECTION.VALIDATION.QUEUE  | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] TEST.Q1                            | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] TEST.Q2                            | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] TEST.Q3                            | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] TEST.QUEUE                         | LOCAL   |     0 |     0 |      0 | N/A              | N/A              | N/A          |     0 | N/A                       | N/A          | N/A
+[2026-02-12 23:50:28] --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+[2026-02-12 23:50:28] Total: 61 rows
+[2026-02-12 23:50:28] 
+[2026-02-12 23:50:28] [INFO] CSV data appended to: ./output/queue_status_20260212_235028.csv
+[2026-02-12 23:50:28] [INFO] Disconnected from MQQM1
+[2026-02-12 23:50:28] [INFO] Completed: MQQM1
+[2026-02-12 23:50:28] [INFO] Thread pool shutdown complete
+[2026-02-12 23:50:28] ========================================
+[2026-02-12 23:50:28] [INFO] Operation completed successfully

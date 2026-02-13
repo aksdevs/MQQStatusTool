@@ -5,6 +5,66 @@ cmake-build-release/
 cmake-build-relwithdebinfo/
 cmake-build-minsizerel/
 
-# Windows system files
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.cmake
+
+# Compiled object files and libraries
+*.o
+*.a
+*.so
+*.so.*
+*.dylib
+*.dll
+*.lib
+*.exe
+*.out
+
+# Debug symbols
+*.dSYM/
+*.su
+*.gch
+*.pch
+*.pdb
+*.ilk
+
+# IDE and Editor files
+.idea/
+.vscode/
+*.sln
+*.vcxproj*
+*.user
+*.VC.db
+*.iml
+*.sw[po]
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 nul
+
+# Temporary and backup files
+*~
+*.bak
+*.swp
+*.tmp
+*.orig
+
+# Dependencies
+vendor/
+lib/
+include/external
+
+# Note: logs/ and output/ directories ARE committed as they contain sample files
+# to help users understand the logging format and utility output structure
 
