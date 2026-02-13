@@ -1,0 +1,38 @@
+# IBM MQ Queue Status Tool Configuration
+# Multiple queue managers can be configured
+
+# Global Settings
+[global]
+log_file_path = "./MQQStatusTool.log"
+log_file_size_mb = 10
+log_backups = 5
+generate_csv = true
+csv_file_path = "./queue_status.csv"
+max_threads = 5
+
+# Default Queue Manager Configuration
+[queuemanager.default]
+queue_manager = "MQQM1"
+host = "127.0.0.1"
+port = "5200"
+channel = "APP1.SVRCONN"
+queue_name = "APP1.REQ"
+reply_queue = "REPLY.*"
+
+# Second Queue Manager (Example)
+# [queuemanager.production]
+# queue_manager = "PROD_QM"
+# host = "192.168.1.100"
+# port = "5200"
+# channel = "PROD.SVRCONN"
+# queue_name = "PROD.QUEUE"
+# reply_queue = "PROD.REPLY.*"
+
+# Third Queue Manager (Example)
+# [queuemanager.development]
+# queue_manager = "DEV_QM"
+# host = "10.0.0.50"
+# port = "5200"
+# channel = "DEV.SVRCONN"
+# queue_name = "DEV.QUEUE"
+# reply_queue = "DEV.REPLY.*"
