@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <sstream>
 #include <mutex>
+#include <filesystem>
 
 class MQLog {
 private:
@@ -35,6 +36,18 @@ public:
     MQLog(const std::string& path, int sizeMB = 10, int backups = 5)
         : logPath(path), maxBackups(backups), currentSize(0) {
         maxFileSize = sizeMB * 1024 * 1024;
+
+        // Create directory if it doesn't exist
+        try {
+            std::filesystem::path logPathObj(path);
+            std::filesystem::path logDir = logPathObj.parent_path();
+            if (!logDir.empty() && !std::filesystem::exists(logDir)) {
+                std::filesystem::create_directories(logDir);
+            }
+        } catch (const std::exception& e) {
+            std::cerr << "WARNING: Could not create log directory: " << e.what() << std::endl;
+        }
+
         logFile.open(path, std::ios::trunc);
         if (!logFile.is_open()) {
             std::cerr << "WARNING: Could not open log file: " << path << std::endl;

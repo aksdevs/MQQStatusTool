@@ -3,7 +3,7 @@
 
 # Global Settings
 [global]
-log_file_path = "./MQQStatusTool.log"
+log_file_path = "./logs/MQQStatusTool.log"
 log_file_size_mb = 10
 log_backups = 5
 generate_csv = true

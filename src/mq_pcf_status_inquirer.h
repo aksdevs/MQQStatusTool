@@ -14,6 +14,12 @@ struct PCFQueueData {
     MQLONG openInputCount;
     MQLONG openOutputCount;
     std::string queueType;
+    std::string connection;
+    std::string user;
+    std::string applicationTag;
+    MQLONG processId;
+    std::string channelName;
+    std::string processType;  // "READ" or "WRITE" for individual process entries
 };
 
 class MQPCFStatusInquirer {
@@ -27,7 +33,7 @@ public:
     std::vector<PCFQueueData> inquireAllQueueStatuses() {
         std::vector<PCFQueueData> queueStatuses;
 
-        logger.info("Sending PCF INQUIRE_Q command to get all local queue attributes...");
+        logger.info("Sending PCF INQUIRE_Q_STATUS command to get all local queue status attributes...");
 
         // Open SYSTEM.ADMIN.COMMAND.QUEUE for sending PCF commands
         MQOD cmdQueueDesc = {MQOD_DEFAULT};
@@ -63,7 +69,7 @@ public:
 
         logger.info("Created dynamic reply queue: " + std::string(replyQName));
 
-        // Build PCF INQUIRE_Q command message
+        // Build PCF INQUIRE_Q_STATUS command message
         // Parameters: Q_NAME=* and Q_TYPE=LOCAL
         unsigned char cmdBuffer[4096];
         memset(cmdBuffer, 0, sizeof(cmdBuffer));
@@ -73,7 +79,7 @@ public:
         pCFH->Type = MQCFT_COMMAND;
         pCFH->StrucLength = MQCFH_STRUC_LENGTH;
         pCFH->Version = MQCFH_VERSION_1;
-        pCFH->Command = MQCMD_INQUIRE_Q;
+        pCFH->Command = MQCMD_INQUIRE_Q_STATUS;
         pCFH->MsgSeqNumber = 1;
         pCFH->Control = MQCFC_LAST;
         pCFH->CompCode = MQCC_OK;
@@ -168,6 +174,12 @@ public:
             currentQueue.openInputCount = 0;
             currentQueue.openOutputCount = 0;
             currentQueue.queueType = "LOCAL";
+            currentQueue.processId = 0;
+            currentQueue.connection = "N/A";
+            currentQueue.user = "N/A";
+            currentQueue.applicationTag = "N/A";
+            currentQueue.channelName = "N/A";
+            currentQueue.processType = "N/A";
 
             int respOffset = pRespCFH->StrucLength;
             for (int p = 0; p < pRespCFH->ParameterCount && respOffset < dataLen; p++) {
@@ -189,6 +201,45 @@ public:
                         if (endpos != std::string::npos)
                             trimmedName = trimmedName.substr(0, endpos + 1);
                         currentQueue.queueName = trimmedName;
+                    }
+                    else if (pStr->Parameter == MQCACH_CONNECTION_NAME) {
+                        char connName[MQ_CONN_NAME_LENGTH + 1];
+                        memset(connName, 0, sizeof(connName));
+                        int copyLen = pStr->StringLength;
+                        if (copyLen > MQ_CONN_NAME_LENGTH) copyLen = MQ_CONN_NAME_LENGTH;
+                        memcpy(connName, pStr->String, copyLen);
+                        std::string trimmed(connName);
+                        size_t endpos = trimmed.find_last_not_of(" ");
+                        if (endpos != std::string::npos)
+                            trimmed = trimmed.substr(0, endpos + 1);
+                        if (!trimmed.empty())
+                            currentQueue.connection = trimmed;
+                    }
+                    else if (pStr->Parameter == MQCACF_USER_IDENTIFIER) {
+                        char userName[MQ_USER_ID_LENGTH + 1];
+                        memset(userName, 0, sizeof(userName));
+                        int copyLen = pStr->StringLength;
+                        if (copyLen > MQ_USER_ID_LENGTH) copyLen = MQ_USER_ID_LENGTH;
+                        memcpy(userName, pStr->String, copyLen);
+                        std::string trimmed(userName);
+                        size_t endpos = trimmed.find_last_not_of(" ");
+                        if (endpos != std::string::npos)
+                            trimmed = trimmed.substr(0, endpos + 1);
+                        if (!trimmed.empty())
+                            currentQueue.user = trimmed;
+                    }
+                    else if (pStr->Parameter == MQCACF_APPL_TAG) {
+                        char appTag[MQ_APPL_TAG_LENGTH + 1];
+                        memset(appTag, 0, sizeof(appTag));
+                        int copyLen = pStr->StringLength;
+                        if (copyLen > MQ_APPL_TAG_LENGTH) copyLen = MQ_APPL_TAG_LENGTH;
+                        memcpy(appTag, pStr->String, copyLen);
+                        std::string trimmed(appTag);
+                        size_t endpos = trimmed.find_last_not_of(" ");
+                        if (endpos != std::string::npos)
+                            trimmed = trimmed.substr(0, endpos + 1);
+                        if (!trimmed.empty())
+                            currentQueue.applicationTag = trimmed;
                     }
 
                     respOffset += pStr->StrucLength;
@@ -213,6 +264,9 @@ public:
                             case MQQT_REMOTE: currentQueue.queueType = "REMOTE"; break;
                             default:          currentQueue.queueType = "UNKNOWN"; break;
                         }
+                    }
+                    else if (pInt->Parameter == MQIACF_PROCESS_ID) {
+                        currentQueue.processId = pInt->Value;
                     }
 
                     respOffset += pInt->StrucLength;

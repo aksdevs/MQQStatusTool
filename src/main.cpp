@@ -187,8 +187,8 @@ int main(int argc, char* argv[]) {
                         logger.log("QUEUE STATUS REPORT - " + qmCfg.queueManager);
                         logger.log("========================================");
                         logger.log("");
-                        logger.log("Queue Name                         | Type    | Depth | Input | Output");
-                        logger.log("----------------------------------------------------------------------");
+                        logger.log("Queue Name                         | Type    | Depth | Input | Output | Connection | User | PID | AppTag");
+                        logger.log("---------------------------------------------------------------------------------------------");
 
                         for (const auto& q : queueStatuses) {
                             ostringstream oss;
@@ -196,11 +196,15 @@ int main(int argc, char* argv[]) {
                                 << setw(8) << q.queueType << "| "
                                 << right << setw(5) << q.currentDepth << " | "
                                 << setw(5) << q.openInputCount << " | "
-                                << setw(6) << q.openOutputCount;
+                                << setw(6) << q.openOutputCount << " | "
+                                << setw(10) << q.connection << " | "
+                                << setw(5) << q.user << " | "
+                                << setw(5) << q.processId << " | "
+                                << setw(7) << q.applicationTag;
                             logger.log(oss.str());
                         }
 
-                        logger.log("----------------------------------------------------------------------");
+                        logger.log("---------------------------------------------------------------------------------------------");
                         logger.log("Total: " + to_string(queueStatuses.size()) + " queues");
                         logger.log("");
 
@@ -232,6 +236,18 @@ void generateCSVReport(const vector<PCFQueueData>& queues, const string& csvPath
     try {
         lock_guard<mutex> guard(csvMutex);
 
+        // Get current timestamp
+        time_t now = time(0);
+        struct tm timeinfo;
+#ifdef _WIN32
+        localtime_s(&timeinfo, &now);
+#else
+        localtime_r(&now, &timeinfo);
+#endif
+        ostringstream timestampOss;
+        timestampOss << put_time(&timeinfo, "%Y-%m-%d %H:%M:%S");
+        string timestamp = timestampOss.str();
+
         // Check if file exists to determine if header is needed
         bool writeHeader = true;
         {
@@ -248,13 +264,15 @@ void generateCSVReport(const vector<PCFQueueData>& queues, const string& csvPath
         }
 
         if (writeHeader) {
-            csvFile << "Queue_Manager,Queue_Name,Queue_Type,Current_Depth,Input_Count,Output_Count\n";
+            csvFile << "Timestamp,Queue_Manager,Queue_Name,Queue_Type,Current_Depth,Input_Count,Output_Count,"
+                    << "Connection,User,Process_ID,Application_Tag,Process_Type\n";
         }
 
         for (const auto& q : queues) {
-            csvFile << qmName << "," << q.queueName << "," << q.queueType << ","
-                    << q.currentDepth << "," << q.openInputCount << ","
-                    << q.openOutputCount << "\n";
+            csvFile << timestamp << "," << qmName << "," << q.queueName << "," << q.queueType << ","
+                    << q.currentDepth << "," << q.openInputCount << "," << q.openOutputCount << ","
+                    << q.connection << "," << q.user << "," << q.processId << ","
+                    << q.applicationTag << "," << q.processType << "\n";
         }
         csvFile.close();
         logger.info("CSV data appended to: " + csvPath);
