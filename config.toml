@@ -7,7 +7,7 @@ log_file_path = "./logs/MQQStatusTool.log"
 log_file_size_mb = 10
 log_backups = 5
 generate_csv = true
-csv_file_path = "./queue_status.csv"
+csv_file_path = "./output/queue_status.csv"
 max_threads = 5
 
 # Default Queue Manager Configuration

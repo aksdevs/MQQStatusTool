@@ -21,6 +21,31 @@ using namespace std;
 // Mutex for CSV file writing from multiple threads
 static mutex csvMutex;
 
+// Generate a timestamp suffix for filenames: _YYYYMMDD_HHMMSS
+static string generateFileTimestamp() {
+    time_t now = time(0);
+    struct tm timeinfo;
+#ifdef _WIN32
+    localtime_s(&timeinfo, &now);
+#else
+    localtime_r(&now, &timeinfo);
+#endif
+    ostringstream oss;
+    oss << "_" << put_time(&timeinfo, "%Y%m%d_%H%M%S");
+    return oss.str();
+}
+
+// Append timestamp before the file extension: "path/file.ext" -> "path/file_YYYYMMDD_HHMMSS.ext"
+static string appendTimestampToPath(const string& path, const string& timestamp) {
+    size_t dotPos = path.rfind('.');
+    size_t slashPos = path.find_last_of("/\\");
+    // Make sure the dot is in the filename part, not in a directory
+    if (dotPos != string::npos && (slashPos == string::npos || dotPos > slashPos)) {
+        return path.substr(0, dotPos) + timestamp + path.substr(dotPos);
+    }
+    return path + timestamp;
+}
+
 void generateCSVReport(const vector<PCFQueueData>& queues, const string& csvPath,
                        const string& qmName, MQLog& logger);
 
@@ -51,9 +76,18 @@ int main(int argc, char* argv[]) {
 
     GlobalConfig globalConfig = config.getGlobalConfig();
 
+    // Generate timestamp suffix for log and CSV filenames
+    string fileTimestamp = generateFileTimestamp();
+
+    string logPath = globalConfig.logPath.empty() ? "MQQStatusTool.log" : globalConfig.logPath;
+    logPath = appendTimestampToPath(logPath, fileTimestamp);
+
+    if (globalConfig.generateCSV) {
+        globalConfig.csvPath = appendTimestampToPath(globalConfig.csvPath, fileTimestamp);
+    }
+
     // Create logger
-    MQLog logger(globalConfig.logPath.empty() ? "MQQStatusTool.log" : globalConfig.logPath,
-                 globalConfig.logSizeMB, globalConfig.logBackups);
+    MQLog logger(logPath, globalConfig.logSizeMB, globalConfig.logBackups);
     logger.log("========================================");
     logger.log("IBM MQ Queue Status Tool");
     logger.log("========================================");
@@ -187,8 +221,8 @@ int main(int argc, char* argv[]) {
                         logger.log("QUEUE STATUS REPORT - " + qmCfg.queueManager);
                         logger.log("========================================");
                         logger.log("");
-                        logger.log("Queue Name                         | Type    | Depth | Input | Output | Connection | User | PID | AppTag");
-                        logger.log("---------------------------------------------------------------------------------------------");
+                        logger.log("Queue Name                         | Type    | Depth | Input | Output | Connection       | Channel          | User         | PID   | AppTag                    | Process_Type | Role");
+                        logger.log("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
                         for (const auto& q : queueStatuses) {
                             ostringstream oss;
@@ -197,15 +231,18 @@ int main(int argc, char* argv[]) {
                                 << right << setw(5) << q.currentDepth << " | "
                                 << setw(5) << q.openInputCount << " | "
                                 << setw(6) << q.openOutputCount << " | "
-                                << setw(10) << q.connection << " | "
-                                << setw(5) << q.user << " | "
-                                << setw(5) << q.processId << " | "
-                                << setw(7) << q.applicationTag;
+                                << left << setw(17) << q.connection << "| "
+                                << setw(17) << q.channelName << "| "
+                                << setw(13) << q.user << "| "
+                                << right << setw(5) << q.processId << " | "
+                                << left << setw(26) << q.applicationTag << "| "
+                                << setw(13) << q.processType << "| "
+                                << q.role;
                             logger.log(oss.str());
                         }
 
-                        logger.log("---------------------------------------------------------------------------------------------");
-                        logger.log("Total: " + to_string(queueStatuses.size()) + " queues");
+                        logger.log("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                        logger.log("Total: " + to_string(queueStatuses.size()) + " rows");
                         logger.log("");
 
                         // Generate CSV if enabled
@@ -265,14 +302,14 @@ void generateCSVReport(const vector<PCFQueueData>& queues, const string& csvPath
 
         if (writeHeader) {
             csvFile << "Timestamp,Queue_Manager,Queue_Name,Queue_Type,Current_Depth,Input_Count,Output_Count,"
-                    << "Connection,User,Process_ID,Application_Tag,Process_Type\n";
+                    << "Connection,Channel,User,Process_ID,Application_Tag,Process_Type,Role\n";
         }
 
         for (const auto& q : queues) {
             csvFile << timestamp << "," << qmName << "," << q.queueName << "," << q.queueType << ","
                     << q.currentDepth << "," << q.openInputCount << "," << q.openOutputCount << ","
-                    << q.connection << "," << q.user << "," << q.processId << ","
-                    << q.applicationTag << "," << q.processType << "\n";
+                    << q.connection << "," << q.channelName << "," << q.user << "," << q.processId << ","
+                    << q.applicationTag << "," << q.processType << "," << q.role << "\n";
         }
         csvFile.close();
         logger.info("CSV data appended to: " + csvPath);
